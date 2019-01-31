@@ -1,0 +1,45 @@
+在C#中，要将一个字符串或浮点数转换为整数，基本上有三种方法： 
+
+   （1）使用强制类型转换：(int)浮点数  
+
+   （2）使用Convert.ToInt32(string) 
+
+   （3）使用int.Parse(string)或int.TryParse(string,out int) 
+
+  
+
+在实际使用时，当要转换的字符串或数字带有小数时，发现它们有以下区别： 
+
+   （1）方法一:截断  方法二:四舍五入 
+
+int a=(int)2.8; //结果为2 
+
+int b=Convert.ToInt32(2.8); //b的值为3 
+
+（2）int.Parse方法的参数如果不能转换为整数，则报异常。 
+
+如 int c=int.Parse("2.8"); //报异常,说明其参数必须是整数字符串 
+
+     //int.TryParse 
+
+int c = -1; 
+
+ 　  int.TryParse("2.8", out c); //不能转换成功，结果为0 
+
+int.TryParse("2", out c); //转换成功，结果为2 
+
+  
+
+     那么，当要转换的信息为一个字符而不是数字的时候又怎么样呢？ 
+
+    结果如下所示： 
+
+        int a = (int)'a'; //结果为97，注意是字符，而不是字符串（如果是字符串，编译不能通过） 
+
+        int b = Convert.ToInt32("a"); //报异常  
+
+        int c=int.Parse("a");  //报异常 
+
+int d = -1; 
+
+        int.TryParse("a", out d); //结果为0 
