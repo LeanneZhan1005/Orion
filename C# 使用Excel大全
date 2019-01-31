@@ -1,0 +1,307 @@
+//引用Microsoft.Office.Interop.Excel.dll文件   
+
+//添加using 
+
+using Microsoft.Office.Interop.Excel; 
+
+using Excel=Microsoft.Office.Interop.Excel; 
+
+  
+
+//设置程序运行语言 
+
+System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture; 
+
+System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); 
+
+//创建Application 
+
+Excel.Application xlApp = new Excel.Application(); 
+
+//设置是否显示警告窗体 
+
+excelApp.DisplayAlerts = false; 
+
+//设置是否显示Excel 
+
+excelApp.Visible = false; 
+
+//禁止刷新屏幕 
+
+excelApp.ScreenUpdating = false; 
+
+//根据路径path打开 
+
+Excel.Workbook xlsWorkBook = excelApp.Workbooks.Open(path, System.Type.Missing, System.Type.Missing, System.Type.Missing, 
+
+System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, 
+
+System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing); 
+
+//获取Worksheet对象 
+
+Excel.Worksheet xlsWorkSheet = (Worksheet)xlsWorkBook.Worksheets["sales plan"]; 
+
+  
+
+***获取最后一行、一列的两种方法*** 
+
+//获取已用的范围数据 
+
+int rowsCount = xlsWorkSheet.UsedRange.Rows.Count; 
+
+int colsCount = xlsWorkSheet.UsedRange.Columns.Count; 
+
+int rowsCount = xlsWorkSheet.get_Range("A65536", "A65536").get_End(Microsoft.Office.Interop.Excel.XlDirection.xlUp).Row; 
+
+int colsCount = xlsWorkSheet.get_Range("ZZ1", "ZZ1").get_End(Microsoft.Office.Interop.Excel.XlDirection.xlToLeft).Column; 
+
+  
+
+***将Excel数据存入二维数组*** 
+
+//rowsCount：最大行    colsCount：最大列 
+
+Microsoft.Office.Interop.Excel.Range c1 = (Microsoft.Office.Interop.Excel.Range)xlsWorkSheet.Cells[1, 1]; 
+
+Microsoft.Office.Interop.Excel.Range c2 = (Microsoft.Office.Interop.Excel.Range)xlsWorkSheet.Cells[rowsCount, colsCount]; 
+
+Range rng = (Microsoft.Office.Interop.Excel.Range)xlsWorkSheet.get_Range(c1, c2); 
+
+object[,] exceldata = (object[,])rng.get_Value(Microsoft.Office.Interop.Excel.XlRangeValueDataType.xlRangeValueDefault); 
+
+  
+
+//在第一列的左边插入一列 
+
+Excel.Range xlsColumns = (Excel.Range)xlsWorkSheet.Columns[1, System.Type.Missing]; 
+
+xlsColumns.Insert(XlInsertShiftDirection.xlShiftToRight, Type.Missing); 
+
+//xlsSheetTemplateMajor_Meisai.Cells.get_Range(xlsSheetTemplateMajor_Meisai.Cells[1, 1], xlsSheetTemplateMajor_Meisai.Cells[65535, 1]).Insert(Type.Missing, Type.Missing); 
+
+ Excel.Range rng; 
+
+            rng = worksheet.get_Range("A:A", "A:A"); 
+
+            rng.Insert(Excel.XlDirection.xlToRight, Excel.XlInsertFormatOrigin.xlFormatFromLeftOrAbove); 
+
+Excel.Range rng = (Microsoft.Office.Interop.Excel.Range)xlsWorkSheet.Columns[12, Type.Missing]; 
+
+rng.Insert(XlInsertShiftDirection.xlShiftToRight, XlInsertFormatOrigin.xlFormatFromLeftOrAbove); 
+
+  
+
+  
+
+//删除行 
+
+Range deleteRng = (Range)xlsWorkSheetSapExcel.Rows[2, System.Type.Missing]; 
+
+deleteRng.Delete(Excel.XlDeleteShiftDirection.xlShiftUp); 
+
+  
+
+//删除一列数据 
+
+((Microsoft.Office.Interop.Excel.Range)xlWorkSheet.Cells[1, 11]).Select(); 
+
+((Microsoft.Office.Interop.Excel.Range)xlWorkSheet.Cells[1, 11]).EntireColumn.Delete(0); 
+
+((Excel.Range)xlsSheetShareMajor_Meisai.Cells[1, 3]).EntireColumn.Delete (0); 
+
+              
+
+//设置背景色为红色 
+
+xlsWorkSheet.get_Range("A1", "A1").Interior.ColorIndex = 3; 
+
+  
+
+//设置Format属性    属性值可以通过在vba中录宏得到 
+
+Microsoft.Office.Interop.Excel.Range range1 = xlsWorkSheetAdd.get_Range("J1", "J65535"); 
+
+range1.NumberFormat = "@";//文本格式 
+
+range1 = xlsWorkSheetAdd.get_Range("L1", "L65535"); 
+
+range1.NumberFormat = "0.00";//保留两位小数 
+
+Excel.Range rng = xlsSheetShareMajor_Meisai.Columns["I", System.Type.Missing] as Excel.Range; 
+
+rng.NumberFormatLocal =@"yyyy/m/d";//设置日期格式 
+
+  
+
+  
+
+//替换 
+
+Range Drng = xlsWorkSheetTemplate.get_Range("D1", "D65535"); 
+
+Drng.Replace(" ", "", XlLookAt.xlPart, XlSearchOrder.xlByColumns, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing); 
+
+Drng.TextToColumns(Drng, Excel.XlTextParsingType.xlDelimited, Excel.XlTextQualifier.xlTextQualifierSingleQuote, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing); 
+
+  
+
+//分列处理 设置为文本 
+
+Range TextToColumnRng = xlsWorkSheet.get_Range("E1", "E65535"); 
+
+xlsWorkSheet.get_Range("E1", "E65535").TextToColumns(TextToColumnRng, Excel.XlTextParsingType.xlDelimited, Excel.XlTextQualifier.xlTextQualifierSingleQuote, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing, System.Type.Missing); 
+
+  
+
+//设置公式 
+
+rng = xlMergeFileWorkSheet.get_Range("D2", "D" + rowcount);//设置列范围 
+
+rng.Formula = @"=IF(RC[-3]=""H"",""Survivor"",""Donor"")";//设置公式   @的问题 
+
+//rng.NumberFormat = "$0.00";//设置格式 
+
+copyRng = xlsSheetTemplateMajor_Meisai.get_Range("N3", "N" + lastRowTemplate); 
+
+copyRng.Formula = "=VLOOKUP(RC[-12],AR残!C[-13]:C[-11],2,0)"; 
+
+  
+
+//通过行、列的索引获取值 
+
+string f = Convert.ToString(xlsSheetShareMajor_Meisai.get_Range(xlsSheetShareMajor_Meisai.Cells[2, 1], xlsSheetShareMajor_Meisai.Cells[2,1]).Value2); 
+
+  
+
+//筛选 
+
+//确定筛选范围 
+
+D1_rng = D1_TemSheet.Cells.get_Range(D1_TemSheet.Cells[1, 1], D1_TemSheet.Cells[1, 50]); 
+
+//执行筛选动作 
+
+rng.AutoFilter(5, "S", Microsoft.Office.Interop.Excel.XlAutoFilterOperator.xlFilterValues, Type.Missing, true); 
+
+rng.AutoFilter(6, "H", Microsoft.Office.Interop.Excel.XlAutoFilterOperator.xlOr, "F", true); 
+
+D1_rng.AutoFilter(D1_Column + 2, "#N/A", Microsoft.Office.Interop.Excel.XlAutoFilterOperator.xlFilterValues,"#N/A",false); 
+
+  
+
+//复制粘贴 
+
+D2_rng.Copy(Type.Missing); 
+
+D2_TemSheet.Cells.get_Range(D2_TemSheet.Cells[2, (D2_Column + 1)], D2_TemSheet.Cells[2, (D2_Column + 1)]).PasteSpecial(Excel.XlPasteType.xlPasteValues, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false); 
+
+  
+
+  
+
+//Find查找 
+
+rng = mySheet.get_Range("A1", "IV10").Find(arrLabel[j], Type.Missing, 
+
+                        Microsoft.Office.Interop.Excel.XlFindLookIn.xlValues, Microsoft.Office.Interop.Excel.XlLookAt.xlWhole, 
+
+                        Microsoft.Office.Interop.Excel.XlSearchOrder.xlByRows, 
+
+                        Microsoft.Office.Interop.Excel.XlSearchDirection.xlNext, false, Type.Missing, Type.Missing); 
+
+  
+
+//文字占满单元格 
+
+range.EntireColumn.AutoFit(); 
+
+  
+
+//另存 
+
+xlsWorkBook.SaveAs(FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing); 
+
+  
+
+***关闭对象*** 
+
+System.Runtime.InteropServices.Marshal.ReleaseComObject(xlsWorkSheet); 
+
+System.Runtime.InteropServices.Marshal.ReleaseComObject(xlsWorkBook); 
+
+excelApp.Quit(); 
+
+Kill(excelApp);//调用方法关闭进程 
+
+GC.Collect(); 
+
+  
+
+/// <summary> 
+
+/// 关闭Excel进程 
+
+/// </summary> 
+
+public class KeyMyExcelProcess 
+
+{ 
+
+    [DllImport("User32.dll", CharSet = CharSet.Auto)] 
+
+    public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID); 
+
+    public static void Kill(Microsoft.Office.Interop.Excel.Application excel) 
+
+    { 
+
+        try 
+
+        { 
+
+            IntPtr t = new IntPtr(excel.Hwnd);   //得到这个句柄，具体作用是得到这块内存入口  
+
+            int k = 0; 
+
+            GetWindowThreadProcessId(t, out k);   //得到本进程唯一标志k 
+
+            System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(k);   //得到对进程k的引用 
+
+            p.Kill();     //关闭进程k 
+
+        } 
+
+        catch (System.Exception ex) 
+
+        { 
+
+            throw ex; 
+
+        } 
+
+    } 
+
+} 
+
+      
+
+      
+
+//关闭打开的Excel方法 
+
+ public void CloseExcel(Microsoft.Office.Interop.Excel.Application ExcelApplication, Microsoft.Office.Interop.Excel.Workbook ExcelWorkbook) 
+
+{ 
+
+   ExcelWorkbook.Close(false, Type.Missing, Type.Missing); 
+
+   ExcelWorkbook = null; 
+
+   ExcelApplication.Quit(); 
+
+   GC.Collect(); 
+
+   KeyMyExcelProcess.Kill(ExcelApplication); 
+
+} 
