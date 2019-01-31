@@ -1,0 +1,29 @@
+//For j1-j6: 
+
+TxOlpControllerUtilities utils = new TxOlpControllerUtilities(); 
+
+ITxOlpRobotControllerParametersHandler paramHandler = utils.InitAndGetRobotControllerParametersHandlerInstance(relevantLoc); 
+
+if (paramHandler != null) 
+
+{ 
+
+realValue = paramHandler.GetComplexRepresentation(ParamName, location, TxOlpCommandLayerRepresentation.UI); 
+
+} 
+
+  
+
+  
+
+//for TxPoseData 
+
+ITxRoboticControllerServices roboticControllerServices = null; 
+
+TxOlpControllerUtilities controllerUttilities = new TxOlpControllerUtilities(); 
+
+roboticControllerServices = (ITxRoboticControllerServices)controllerUttilities.GetInterfaceImplementationFromController(controllerName, typeof(ITxRoboticControllerServices), typeof(TxControllerAttribute), "ControllerName"); 
+
+  
+
+TxPoseData poseData;status = _roboticControllerServices.CheckInverse(location, data, type, out poseData); 
