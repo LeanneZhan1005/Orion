@@ -1,0 +1,27 @@
+public string SetDynamicParameter(string controllername, string columnName, ITxOperation op, string paramValue) 
+
+{ 
+
+     TxOlpControllerUtilities utils = new TxOlpControllerUtilities(); 
+
+     ITxOlpRobotControllerParametersHandler paramHandler = (ITxOlpRobotControllerParametersHandler)utils.GetInterfaceImplementationFromController(controllername, typeof(ITxOlpRobotControllerParametersHandler), typeof(TxRobotSimulationControllerAttribute), "ControllerName"); 
+
+     if (paramHandler != null) 
+
+     { 
+
+          if (paramHandler.HasComplexRepresentation(columnName, op, TxOlpCommandLayerRepresentation.UI)) 
+
+          { 
+
+             paramHandler.OnComplexValueChanged(columnName, paramValue, op); 
+
+          } 
+
+      } 
+
+ 
+
+      return paramValue; 
+
+}  
