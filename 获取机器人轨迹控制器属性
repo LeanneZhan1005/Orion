@@ -20,8 +20,6 @@ public string SetDynamicParameter(string controllername, string columnName, ITxO
 
       } 
 
- 
-
       return paramValue; 
 
 }  
